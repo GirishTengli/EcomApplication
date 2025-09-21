@@ -4,7 +4,8 @@
 #spring.datasource.url=jdbc:h2:mem:test
 #spring.jpa.show-sql=true
 #spring.jpa.hibernate.ddl-auto=create
-
+#management.endpoints.web.exposure.include=*
+# endpoint.health.show-details= always
 spring:
   application:
     name: ecom-application
@@ -21,3 +22,23 @@ spring:
       ddl-auto: create
 server:
   port: 9090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      access: none
+  info:
+    env:
+      enabled: true
+
+info:
+    app:
+      name: MyApp
+      version: 1.0.0

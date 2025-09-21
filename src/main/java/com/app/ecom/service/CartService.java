@@ -8,6 +8,7 @@ import com.app.ecom.repository.CartItemRepository;
 import com.app.ecom.repository.ProductRepository;
 import com.app.ecom.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,13 @@ public class CartService {
         return userRepository.findById(Long.valueOf(userId))
                 .map(cartItemRepository::findByUser)
                 .orElseGet(List::of);
+
+    }
+
+    public void clearCart(String userId) {
+
+        userRepository.findById(Long.valueOf(userId)).ifPresent(
+                cartItemRepository::deleteByUser);
 
     }
 }
