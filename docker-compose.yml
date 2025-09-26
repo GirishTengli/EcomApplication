@@ -1,0 +1,35 @@
+Services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:17
+    environment:
+      POSTGRES_USER=admin
+      POSTGRES_PASSWORD=admin
+      PGDATA=/data/postgres
+  volume:
+    -postgres:/data/postgres
+  port:
+    - "5432:5432"
+  network:
+    postgres
+  restart:
+    unless-stopped
+
+  pgadmin:
+    container_name: pgadmin-container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL= ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE= 'False'
+    volume:
+      - pgadmin:/var/lib/pgadmin \
+    port:
+      -p 5050:80
+    network:
+      postgres
+    restart:
+      unless-stopped
+    volumes:
+      postgres:
+      pgadmin:
