@@ -1,35 +1,38 @@
-Services:
+services:
   postgres:
     container_name: postgres_container
     image: postgres:17
     environment:
-      POSTGRES_USER=admin
-      POSTGRES_PASSWORD=admin
-      PGDATA=/data/postgres
-  volume:
-    -postgres:/data/postgres
-  port:
-    - "5432:5432"
-  network:
-    postgres
-  restart:
-    unless-stopped
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/postgres
+    volumes: # <- Corrected 'volume' to 'volumes' and indentation
+      - postgres:/data/postgres
+    ports: # <- Corrected indentation
+      - "5432:5432" # <- Correct list item format (no error text here)
+    networks: # <- Corrected 'networks' key is a list
+      - postgres
+    restart: unless-stopped # <- Corrected to be a scalar value
 
   pgadmin:
     container_name: pgadmin-container
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL= ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE= 'False'
-    volume:
-      - pgadmin:/var/lib/pgadmin \
-    port:
-      -p 5050:80
-    network:
-      postgres
-    restart:
-      unless-stopped
-    volumes:
-      postgres:
-      pgadmin:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes: # <- Removed backslash and corrected list formatting
+      - pgadmin:/var/lib/pgadmin
+    ports: # <- Corrected key name from 'ports' to 'ports' (it was 'ports' in your example) and list formatting
+      - "5050:80" # <- Correct list item format (removed '-p' prefix)
+    networks: # <- Corrected key from 'network' to 'networks' and indentation
+      - postgres
+    restart: unless-stopped # <- Corrected to be a scalar value and indentation
+
+networks: # <- Networks must be defined at the top level
+  postgres:
+    driver: bridge
+
+volumes: # <- Volumes must be defined at the top level
+  postgres:
+  pgadmin:

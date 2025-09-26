@@ -9,17 +9,25 @@
 spring:
   application:
     name: ecom-application
-
-  h2:
-    console:
-      enabled: true
-
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:postgresql://localhost:5432/ecomdb?serverTimezone=IST
+    username: admin
+    password: admin
   jpa:
+    database: postgresql
     show-sql: true
     hibernate:
       ddl-auto: create
+#  h2:
+#    console:
+#      enabled: true
+#
+#  datasource:
+#    url: jdbc:h2:mem:test
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
 server:
   port: 9090
 
@@ -42,3 +50,4 @@ info:
     app:
       name: MyApp
       version: 1.0.0
+
